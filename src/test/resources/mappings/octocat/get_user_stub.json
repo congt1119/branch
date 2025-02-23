@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/users/octocat"
+  },
+
+  "response": {
+    "status": 200,
+    "bodyFileName": "octocat/user_response.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
