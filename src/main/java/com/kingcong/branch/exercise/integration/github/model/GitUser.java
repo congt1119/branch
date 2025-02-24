@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Date;
+
 @Builder
 @Getter
 public class GitUser {
@@ -13,9 +15,8 @@ public class GitUser {
     private String avatar;
     private String location;
     private String email;
-    private String url;
+    @JsonProperty("html_url")
+    private String htmlUrl;
     @JsonProperty("created_at")
-    private String createdAt;
+    private Date createdAt;
 }
-
-//created_at: "2011-01-25 18:44:36",

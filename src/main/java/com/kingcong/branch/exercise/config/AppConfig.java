@@ -10,6 +10,9 @@ public class AppConfig {
 
     @Bean(name = "restClientGit")
     RestClient restClientGit(@Value("${integration.github.url}") String githubUrl){
-        return RestClient.builder().baseUrl(githubUrl).build();
+        // Should set up retry and backoff but won't implement it due time constraints
+        return RestClient.builder()
+                .baseUrl(githubUrl)
+                .build();
     }
 }

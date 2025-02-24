@@ -10,10 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.ResourceUtils;
 
-import static net.bytebuddy.matcher.ElementMatchers.is;
+import java.nio.file.Files;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,13 +29,28 @@ class ExerciseApplicationTests {
 	private MockMvc mvc;
 
 	@Test
-	public void givenEmployees_whenGetEmployees_thenStatus200() throws Exception {
+	public void givenOctocat_whenGetUser_thenStatus200() throws Exception {
+		String expectedResponseJson = Files.readString(ResourceUtils.getFile("classpath:expected/octocat/expected_response.json").toPath());
 
 		mvc.perform(get("/user/octocat")
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.user_name").value("octocat"));
+				.andExpect(content().json(expectedResponseJson));
+	}
+
+	@Test
+	public void givenError404_whenGetUser_thenStatus404() throws Exception {
+		mvc.perform(get("/user/error_404")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	public void givenError500_whenGetUser_thenStatus500() throws Exception {
+		mvc.perform(get("/user/error_500")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is5xxServerError());
 	}
 }

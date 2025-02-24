@@ -5,6 +5,8 @@ import com.kingcong.branch.exercise.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -15,7 +17,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{username}", produces = "application/json")
-    public @ResponseBody ApiUserData getUserData(@PathVariable String username){
+    public @ResponseBody ApiUserData getUserData(@PathVariable String username) throws ExecutionException {
         return userService.getUserData(username);
     }
 }

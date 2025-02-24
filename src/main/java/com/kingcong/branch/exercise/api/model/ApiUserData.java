@@ -1,9 +1,11 @@
 package com.kingcong.branch.exercise.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -19,8 +21,7 @@ public class ApiUserData {
     private String email;
     private String url;
     @JsonProperty("created_at")
-    private String createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdAt;
     private List<ApiRepo> repos;
 }
-
-//created_at: "2011-01-25 18:44:36",
